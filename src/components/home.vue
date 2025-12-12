@@ -230,7 +230,7 @@ import { useFavorites } from "./Scripts/favorites.js";
 import { useCart } from "./Scripts/cart.js";
 import { useLogout } from "./Scripts/homescript.js";
 
-// ⭐ ADDED FIREBASE
+// FIREBASE
 import { auth, db } from "@/firebase.js";
 import {
   doc,
@@ -240,30 +240,40 @@ import {
   serverTimestamp
 } from "firebase/firestore";
 
-// router
+// Router
 const router = useRouter();
 
-// State
+// States
 const showModal = ref(false);
 const selectedProduct = ref({});
 const selectedSize = ref("");
 const selectedColor = ref("");
+
 const showEventModal = ref(false);
 const selectedEvent = ref(null);
-const eventForm = ref({ name: "", email: "", category: "", shirtSize: "", notes: "" });
-const sizes = ["5","6","7","8","9","10"];
-const colors = ["Red","Blue","Black","White"];
 
-// ⭐ USER ROLE LOADED FROM FIREBASE
-const userRole = ref("user");      
+const eventForm = ref({
+  name: "",
+  email: "",
+  category: "",
+  shirtSize: "",
+  notes: ""
+});
+
+const sizes = ["5", "6", "7", "8", "9", "10"];
+const colors = ["Red", "Blue", "Black", "White"];
+
+// ⭐ USER ROLE – DEFAULT IS "user" UNTIL FIREBASE LOADS
+const userRole = ref("user");
 const userData = ref(null);
 
-// Products
+// Product Images
 import canvasImg from "@/assets/canvas.png";
 import rcasualImg from "@/assets/rcasual.png";
 import menImg from "@/assets/men.png";
 import kagayanImg from "@/assets/kagay-an.png";
 
+// Product List
 const products = [
   { name: "Running canvas shoes", price: 2999, image: canvasImg },
   { name: "Running casual shoes", price: 2999, image: rcasualImg },
@@ -272,18 +282,49 @@ const products = [
 
 // Events
 const events = ref([
-  { id:1, title:"Sante Barley Trilogy Run Asia - Leg 1", displayDate:"Sep 18, 2025", location:"Cagayan de Oro City", type:"Half Marathon", categories:["3K Fun Run","5K Run","10K Run","21K Half Marathon"], image:"https://images.pexels.com/photos/2402777/pexels-photo-2402777.jpeg", description:"Join the first leg of the trilogy run with exciting activities and booths." },
-  { id:2, title:"Milo 50K Ultra Marathon", displayDate:"Oct 05, 2025", location:"Cagayan de Oro City", type:"Ultra Marathon", categories:["50K Ultra"], image:"https://images.pexels.com/photos/1199590/pexels-photo-1199590.jpeg", description:"Challenge yourself in the Milo 50K Ultra Marathon." },
-  { id:3, title:"Kagay-an Festival Marathon", displayDate:"Aug 28, 2025", location:"Cagayan de Oro City", type:"Marathon", categories:["10K Run","21K Half Marathon","42K Marathon"], image:kagayanImg, description:"Celebrate the San Agustin feast with the Kagay-an Festival Marathon." }
+  {
+    id: 1,
+    title: "Sante Barley Trilogy Run Asia - Leg 1",
+    displayDate: "Sep 18, 2025",
+    location: "Cagayan de Oro City",
+    type: "Half Marathon",
+    categories: ["3K Fun Run", "5K Run", "10K Run", "21K Half Marathon"],
+    image:
+      "https://images.pexels.com/photos/2402777/pexels-photo-2402777.jpeg",
+    description:
+      "Join the first leg of the trilogy run with exciting activities and booths."
+  },
+  {
+    id: 2,
+    title: "Milo 50K Ultra Marathon",
+    displayDate: "Oct 05, 2025",
+    location: "Cagayan de Oro City",
+    type: "Ultra Marathon",
+    categories: ["50K Ultra"],
+    image:
+      "https://images.pexels.com/photos/1199590/pexels-photo-1199590.jpeg",
+    description: "Challenge yourself in the Milo 50K Ultra Marathon."
+  },
+  {
+    id: 3,
+    title: "Kagay-an Festival Marathon",
+    displayDate: "Aug 28, 2025",
+    location: "Cagayan de Oro City",
+    type: "Marathon",
+    categories: ["10K Run", "21K Half Marathon", "42K Marathon"],
+    image: kagayanImg,
+    description:
+      "Celebrate the San Agustin feast with the Kagay-an Festival Marathon."
+  }
 ]);
 
-const homeEvents = computed(() => events.value.slice(0,3));
+const homeEvents = computed(() => events.value.slice(0, 3));
 
-// Favorites / Cart
+// Cart / Favorites
 const { addFavorite } = useFavorites();
 const { addCart } = useCart();
 
-// Logout / Dropdown
+// Logout
 const { logout, showDropdown, toggleDropdown } = useLogout();
 
 const handleLogout = () => {
@@ -295,9 +336,8 @@ const handleLogout = () => {
 const goToEvents = () => router.push("/events");
 const goToCollection = () => router.push("/collection");
 
-
 // ------------------------------------------------------
-// ⭐ PRODUCT MODAL ACTIONS
+// PRODUCT MODAL
 // ------------------------------------------------------
 const openProductModal = (product) => {
   selectedProduct.value = product;
@@ -305,30 +345,57 @@ const openProductModal = (product) => {
   selectedColor.value = colors[0];
   showModal.value = true;
 };
-const closeModal = () => showModal.value = false;
+
+const closeModal = () => {
+  showModal.value = false;
+};
 
 const addToFavorites = (product) => {
-  addFavorite({ ...product, size: selectedSize.value, color: selectedColor.value });
+  addFavorite({
+    ...product,
+    size: selectedSize.value,
+    color: selectedColor.value
+  });
   alert(`${product.name} added to Favorites!`);
 };
+
 const addToCart = (product) => {
-  addCart({ ...product, size: selectedSize.value, color: selectedColor.value });
+  addCart({
+    ...product,
+    size: selectedSize.value,
+    color: selectedColor.value
+  });
   alert(`${product.name} added to Cart!`);
 };
 
-
 // ------------------------------------------------------
-// ⭐ EVENT MODAL + FIREBASE REGISTRATION
+// EVENT MODAL + FIREBASE REGISTRATION
 // ------------------------------------------------------
 const openEvent = (event) => {
   selectedEvent.value = event;
-  eventForm.value = { name:"", email:"", category:"", shirtSize:"", notes:"" };
+
+  eventForm.value = {
+    name: "",
+    email: "",
+    category: "",
+    shirtSize: "",
+    notes: ""
+  };
+
   showEventModal.value = true;
 };
-const closeEventModal = () => showEventModal.value = false;
+
+const closeEventModal = () => {
+  showEventModal.value = false;
+};
 
 const submitEventRegistration = async () => {
-  if (!eventForm.value.name || !eventForm.value.email || !eventForm.value.category || !eventForm.value.shirtSize) {
+  if (
+    !eventForm.value.name ||
+    !eventForm.value.email ||
+    !eventForm.value.category ||
+    !eventForm.value.shirtSize
+  ) {
     alert("Please complete all required fields.");
     return;
   }
@@ -352,9 +419,8 @@ const submitEventRegistration = async () => {
   }
 };
 
-
 // ------------------------------------------------------
-// ⭐ AUTO-LOAD USER DATA FROM FIREBASE
+// LOAD USER ROLE FROM FIREBASE
 // ------------------------------------------------------
 onMounted(async () => {
   const user = auth.currentUser;
@@ -366,13 +432,14 @@ onMounted(async () => {
 
     if (snap.exists()) {
       userData.value = snap.data();
-      userRole.value = snap.data().role || "user";
+      userRole.value = snap.data().role || "user"; // ⭐ IMPORTANTE!!!
     }
   } catch (err) {
     console.error("Failed loading user:", err);
   }
 });
 </script>
+
 
 
 <style src="./Styles/home.css"></style>
