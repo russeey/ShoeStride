@@ -61,6 +61,7 @@
 
 .dropdown {
   position: relative;
+  white-space: nowrap;
 
 }
 
@@ -82,17 +83,22 @@
 
 .dropdown-menu {
   position: absolute;
+  display: inline-block !important;
   top: 50px;
   right: 0;
   background: white;
+  white-space: nowrap !important;
   border: 1px solid #ddd;
   border-radius: 8px;
-  min-width: 140px;
+  width: 100%;
+  min-width: 230px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  white-space: nowrap; /* no line break inside items */
   z-index: 10001;   /* higher than modal */
 }
 
 .dropdown-item {
+  white-space: nowrap;
   display: block;
   padding: 10px;
   width: 100%;

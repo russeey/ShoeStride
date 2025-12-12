@@ -64,6 +64,7 @@
         v-for="product in filteredProducts"
         :key="product.id || product.name"
       >
+
         <!-- DELETE BUTTON -->
         <div
           class="delete-btn"
@@ -184,17 +185,26 @@
       </div>
     </div>
 
-    <!-- ⭐ OVERLAY SUCCESS MESSAGE (ADDED HERE) ⭐ -->
+    <!-- OVERLAY SUCCESS -->
     <div v-if="showOverlay" class="overlay-success">
       {{ overlayMessage }}
     </div>
 
+    <!-- ⭐⭐⭐ DELETE CONFIRMATION MODAL (ADDED BY REQUEST — ONLY THIS) ⭐⭐⭐ -->
+    <div v-if="showDeleteConfirm" class="modal-overlay" @click.self="cancelDeleteProduct">
+      <div class="modal-container delete-modal">
+
+        <h2>Delete Product?</h2>
+        <p>This action cannot be undone.</p>
+
+        <div class="delete-actions">
+          <button class="cancel-btn" @click="cancelDeleteProduct">Cancel</button>
+          <button class="delete-confirm-btn" @click="confirmDeleteProduct">Delete</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
-
-
-
-
 
 <script setup>
 import { ref, onMounted, computed, watch } from "vue";
@@ -472,8 +482,5 @@ const addToCart = () => {
 const { logout, showDropdown, toggleDropdown } = useLogout();
 const handleLogout = () => logout();
 </script>
-
-
-
 
 <style src="./Styles/collection.css"></style>

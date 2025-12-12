@@ -43,6 +43,7 @@
                 Unlocked Privileges
               </router-link>
 
+
               <router-link to="/order" class="dropdown-item" @click="showDropdown=false">My order</router-link>
 
 
@@ -439,7 +440,5 @@ onMounted(async () => {
   }
 });
 </script>
-
-
 
 <style src="./Styles/home.css"></style>

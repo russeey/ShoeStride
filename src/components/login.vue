@@ -53,7 +53,7 @@
         </form>
 
         <!-- Social Login -->
-        <p class="or">---------------- Or ----------------</p>
+        <p class="or"> Or </p>
         <div class="social-buttons">
           <button class="google-btn" @click="handleGoogleLogin">
             <img src="../assets/google.png" alt="Google" />
