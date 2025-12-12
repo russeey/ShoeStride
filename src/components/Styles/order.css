@@ -1,0 +1,123 @@
+.order-page {
+  width: 90%;
+  margin: 30px auto;
+  padding-bottom: 40px;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Page Title */
+.order-page h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 25px;
+  font-weight: 600;
+  color: white;
+}
+
+/* Empty message */
+.empty-msg {
+  text-align: center;
+  font-size: 1.1rem;
+  padding: 20px;
+  color: #666;
+}
+
+/* Order list */
+.order-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Order card */
+.order-item {
+  display: flex;
+  gap: 18px;
+  padding: 18px;
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #e2e2e2;
+  transition: 0.25s ease;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+}
+
+/* Hover effect */
+.order-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+}
+
+/* Product image */
+.order-img {
+  width: 110px;
+  height: 110px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+
+/* Info section */
+.order-info h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #111;
+}
+
+.order-info p {
+  margin: 5px 0;
+  color: #444;
+  font-size: 0.95rem;
+}
+
+.order-date {
+  margin-top: 8px;
+  color: #888;
+  font-size: 0.85rem;
+}
+
+/* Mobile responsive */
+@media (max-width: 600px) {
+  .order-item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .order-img {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+/* --- DELETE BUTTON --- */
+.delete-btn {
+  margin-left: auto;
+  background: #ff4d4d;
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.delete-btn:hover {
+  background: #e60000;
+  transform: scale(1.05);
+}
+
+/* Align delete button properly */
+.order-item {
+  position: relative;
+}
+
+/* Mobile fix */
+@media (max-width: 600px) {
+  .delete-btn {
+    margin: 10px 0 0 0;
+    width: 100%;
+  }
+}
+

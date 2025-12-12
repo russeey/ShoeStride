@@ -1,0 +1,443 @@
+/* ---------------- Navbar (copied from home.css) ---------------- */
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.nav-center {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  color: #666;
+}
+
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  background: white;
+  color: black;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  background: #f4f4f4;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown .icon-btnn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  background: white;
+  color: black;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin-top: auto;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  min-width: 140px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.dropdown-item {
+  display: block;
+  padding: 10px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: black;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.dropdown .dropdown-itemmm {
+  display: block;
+  padding: 10px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: red;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* ---------------- Event Page ---------------- */
+.event-page {
+  padding: 2rem;
+  color: white;
+}
+
+.event-page h1 {
+  text-align: center;
+  margin-bottom: 0.25rem;
+}
+
+.subtitle {
+  text-align: center;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: all 0.5s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-move {
+  transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+/* Events grid */
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 50px;
+}
+
+
+
+.event-card {
+  background: rgba(245, 245, 245, 0.85);
+  color: #000;
+  border-radius: 10px;
+
+  /* ❌ This does nothing without display:flex — remove justify-content */
+  /* justify-content: center; */
+
+  overflow: hidden;
+  cursor: pointer;
+
+  /* Prevent stretching on wide screens */
+  width: 100%;
+  max-width: 350px; 
+  margin: 0 auto;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+.event-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.22);
+}
+
+.event-image {
+  width: 100%;
+  height: 200px; /* or whatever height you want for consistency */
+  object-fit: cover; /* ensures image fills the container without stretching */
+  border-radius: 8px 8px 0 0; /* optional: match card style */
+  justify-content: center ; 
+}
+
+.filters-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;      
+  gap: 1.5rem;
+  margin: 1.5rem auto 2rem;
+  max-width: 850px;         
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+/* Labels */
+.filter-group label {
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+/* Rounded “pill” selects */
+.filter-group select {
+  padding: 8px 30px 8px 16px;  /* top | right | bottom | left  → extra right space */
+  border-radius: 999px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  outline: none;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.no-events-message {
+  grid-column: 1 / -1; /* span full width */
+  text-align: center;
+  font-size: 1.5rem;
+  color: white;
+  padding: 2rem 0;
+}
+
+.event-type {
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.event-categories {
+  font-size: 12px;
+  color: #555;
+  margin-top: 2px;
+}
+
+.event-info {
+  padding: 0.75rem 1rem 1rem;
+}
+
+.event-date {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #555;
+}
+
+.event-info h3 {
+  margin: 0.25rem 0;
+  font-size: 1rem;
+}
+
+.location {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* Overlay / modal */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal {
+  background: rgba(245, 245, 245, 0.8); /* last value = opacity (0 to 1) */
+  color: #000;
+  padding: 1.5rem;
+  border-radius: 14px;
+  width: 95%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  border: none;
+  background: transparent;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.load-more-container {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.load-more-btn {
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  background: #ffffff;
+  color: #000000;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.load-more-btn:hover {
+  background: #797c81;
+}
+
+.show-less-btn {
+  margin-left: 1rem;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  border: none;
+  background: #fffdfd;
+  color: #000000;
+  cursor: pointer;
+}
+
+.show-less-btn:hover {
+  background: #333;
+}
+
+/* Transition for events grid */
+.fade-enter-active, .fade-leave-active {
+  transition: all 0.5s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* Optional: button hover effect for smoother feel */
+.load-more-btn, .show-less-btn {
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.load-more-btn:hover, .show-less-btn:hover {
+  transform: translateY(-2px);
+  background: #333;
+}
+
+/* Modal content layout */
+.modal-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.modal-image {
+  width: 260px;
+  max-width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.modal-title-block {
+  flex: 1;
+  min-width: 200px;
+}
+
+.modal-title-block h2 {
+  margin: 0 0 0.25rem 0;
+}
+
+.modal-date-location {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.75rem;
+}
+
+.modal-desc {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Form */
+.modal-body h3 {
+  margin-bottom: 0.75rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.5rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+}
+
+.register-btn {
+  margin-top: 0.5rem;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  border: none;
+  background: #000;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.register-btn:hover {
+  background: #333;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .modal-header {
+    flex-direction: column;
+  }
+
+  .modal-image {
+    width: 100%;
+  }
+}

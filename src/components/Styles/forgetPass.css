@@ -1,0 +1,108 @@
+.forget-pass {
+  min-height: 100vh;
+  color: white;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+}
+
+/* NAVBAR (same as login.vue) */
+.navbar {
+  width: 100%;
+  padding: 20px 0;
+  text-align: center;
+  background: none;
+  z-index: 10;
+}
+
+.navbar ul {
+  list-style: none;
+  display: inline-flex;
+  gap: 40px;
+}
+
+.navbar li a {
+  text-decoration: none;
+  font-size: 16px;
+  color: #fffbfb;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.navbar li a:hover {
+  color: #000;
+}
+
+/* FORM CONTAINER */
+.forget-container {
+  margin: 60px auto;
+  max-width: 400px;
+  background: rgba(39, 41, 43, 0.7);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.3);
+}
+
+.forget-container .h2 {
+  color: white;
+  padding-top: 10px;
+}
+
+.forget-container p {
+  padding-top: 10px;
+}
+
+.forget-container input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.forget-container button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  background-color: white;
+  color: black;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.forget-container button:hover {
+  background: black;
+  color: white;
+
+}
+
+/* Success Message */
+.success {
+  margin-top: 1rem;
+  color: white;
+  font-weight: bold;
+}
+
+/* OVERLAY */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay-content {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  width: 320px;
+  text-align: center;
+  color: black;
+}

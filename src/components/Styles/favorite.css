@@ -1,0 +1,179 @@
+/* ---------------- Navbar (same as home.css) ---------------- */
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 40px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.nav-center {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  color: #666;
+}
+
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  background: white;
+  color: black;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  background: #f4f4f4;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown .icon-btnn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  background: white;
+  color: black;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin-top: auto;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  min-width: 140px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.dropdown-item {
+  display: block;
+  padding: 10px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: black;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.dropdown .dropdown-itemmm {
+  display: block;
+  padding: 10px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: red;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* ---------------- Favorites Page ---------------- */
+.favorite-page {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  color: white;
+}
+
+.favorite-page h1 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.favorite-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.empty-msg {
+  color: white;
+  text-align: center;
+}
+
+.favorite-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: black;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  background: rgba(245, 245, 245, 0.6); /* last value = opacity (0 to 1) */
+}
+
+.favorite-item img {
+  width: 100px;
+  border-radius: 6px;
+}
+
+.item-info h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.item-info p {
+  margin: 2px 0;
+  font-size: 14px;
+}
+
+.favorite-item .remove-btn {
+  margin-left: auto;
+  padding: 6px 12px;
+  border: none;
+  background: #000000;
+  color: #ffffff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.favorite-item .remove-btn:hover {
+  background: #66666e;
+}

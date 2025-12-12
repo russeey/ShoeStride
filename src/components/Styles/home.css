@@ -1,0 +1,585 @@
+/* ---------------- Navbar ---------------- */
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+}
+
+.nav-center {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  color: #666;
+  
+}
+
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-icons a:hover {
+  color:#f43f5e;
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  background: white;
+  color: black;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+
+}
+
+.dropdown .icon-btnn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  background: white;
+  color: black;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin-top: auto;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  min-width: 140px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 10001;   /* higher than modal */
+}
+
+.dropdown-item {
+  display: block;
+  padding: 10px;
+  width: 100%;
+  font-weight: 600;
+  text-align: left;
+  background: none;
+  border: none;
+  color: black;
+  font-size: 14px;
+  cursor: pointer;
+
+}
+
+.dropdown-menu a:hover {
+  color:blue; 
+}
+
+.dropdown-itemmm {
+  display: block;
+  padding: 10px;
+  color: red;
+  width: 100%;
+  text-align: left;
+  background: none;
+  font-weight: 600;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* ---------------- Hero Section ---------------- */
+.hero {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  background: rgba(245, 245, 245, 0.6); /* last value = opacity (0 to 1) */
+  border-radius: 10px;
+  margin: 20px;
+}
+
+.hero-left {
+  flex: 1;
+}
+
+.hero-left h4 {
+  font-size: 14px;
+  font-weight: normal;
+  color: #000000;
+}
+
+.hero-left h2 {
+  font-size: 40px;
+  padding-top: 10px;
+  margin-right: 30px;
+  text-align: left; /* ensures it aligns with other elements */
+  line-height: 1.2; /* optional, improves spacing */
+}
+
+
+.hero-left p {
+  color: #000000;
+  margin-bottom: 15px;
+}
+
+.explore-btn {
+  padding: 10px 20px;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: 700;  transition: background 0.3s ease;
+  cursor: pointer;
+}
+
+.explore-btn:hover {
+  background: #ffffff;
+  color: black;
+  transition: background 0.3s ease;
+  cursor: pointer;
+}
+
+/* ---------------- Products ---------------- */
+.hero-products {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.product-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.2s;
+  width: 180px; /* uniform width */
+}
+
+.product-card:hover {
+  transform: scale(1.05);
+}
+
+.product-card img {
+  max-width: 100%;
+  border-radius: 6px;
+}
+
+.product-card p {
+  margin: 10px 0 5px;
+  font-weight: bold;
+}
+
+.product-card span {
+  color: #000000;
+  font-size: 14px;
+}
+
+
+.product-modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.favorite-btn,
+.cart-btn {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all .3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.favorite-btn {
+  background: #ffe5e9;
+  color: #e11d48;
+  border: 1.5px solid #e11d48;
+}
+
+.favorite-btn:hover {
+  background: #e11d48;
+  color: white;
+}
+
+.cart-btn {
+  background: black;
+  color: white;
+}
+
+.cart-btn:hover {
+  background: white;
+  color: black;
+  border: 1.5px solid black;
+}
+
+
+
+/* ---------------- Events Section ---------------- */
+.events {
+  margin: 40px 20px;
+}
+
+.events h3 {
+  margin-bottom: 20px;
+  color: white;
+}
+
+/* Grid for home events (with images) */
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.home-event-card {
+  background: rgba(245, 245, 245, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.home-event-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.22);
+}
+
+.home-event-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.home-event-info {
+  padding: 10px 12px 12px;
+}
+
+.home-event-info .date {
+  display: block;
+  font-weight: bold;
+  color: black;
+  margin-bottom: 4px;
+}
+
+.home-event-info .event-title {
+  margin: 0;
+  font-weight: 600;
+  color: #000;
+}
+
+.home-event-info small {
+  color: #000000;
+}
+
+/* Old simple event-card (kept just in case) */
+.event-card .date {
+  display: block;
+  font-weight: bold;
+  color: black;
+  margin-bottom: 5px;
+}
+
+.event-card p {
+  color: black;
+}
+
+/* Load more / See all button */
+.load-btn {
+  display: block;
+  margin: 20px auto 0;
+  padding: 10px 20px;
+  background: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  border: none;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  
+}
+
+.load-btn:hover {
+  background: black;
+  color: white;
+  transition: background 0.3s ease;
+}
+
+/* ---------------- Product Modal (resized) ---------------- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  padding: 1rem; /* ensures modal doesn't touch edges on small screens */
+}
+
+.modal-container {
+  background: rgba(245, 245, 245, 0.6); /* last value = opacity (0 to 1) */
+  border-radius: 8px;
+  padding: 1.5rem;
+  width: 90%;
+  max-width: 400px;  /* fixed max width */
+  max-height: 80vh;  /* limits height so it's not too tall */
+  overflow-y: auto;  /* scroll if content exceeds max height */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  position: relative;
+  text-align: center;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-container img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  object-fit: cover;
+}
+
+.modal-container h3 {
+  margin: 0 0 10px;
+}
+
+.modal-container p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.modal-container label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  display: block;
+  text-align: left;
+}
+
+.modal-container select {
+  width: 100%;
+  padding: 6px 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.product-modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  gap: 10px;
+}
+
+.product-modal-actions button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  flex: 1;
+  transition: background 0.2s;
+}
+
+.product-modal-actions button.favorite-btn {
+  background: #f43f5e;
+  color: white;
+}
+
+.product-modal-actions button.favorite-btn:hover {
+  background: #e11d48;
+}
+
+.product-modal-actions button.cart-btn {
+  background: #2563eb;
+  color: white;
+}
+
+.product-modal-actions button.cart-btn:hover {
+  background: #1d4ed8;
+}
+
+/* ---------------- Event Modal (reused from Events page style) ---------------- */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal {
+  background: rgba(245, 245, 245, 0.8); /* last value = opacity (0 to 1) */
+  color: #000;
+  padding: 1.5rem;
+  border-radius: 14px;
+  width: 95%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  border: none;
+  background: transparent;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+/* Modal content layout */
+.modal-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.modal-image {
+  width: 260px;
+  max-width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.modal-title-block {
+  flex: 1;
+  min-width: 200px;
+}
+
+.modal-title-block h2 {
+  margin: 0 0 0.25rem 0;
+}
+
+.modal-date-location {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.75rem;
+}
+
+.modal-desc {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Form */
+.modal-body h3 {
+  margin-bottom: 0.75rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.5rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+}
+
+.register-btn {
+  margin-top: 0.5rem;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  border: none;
+  background: #000;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.register-btn:hover {
+  background: #333;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .hero {
+    flex-direction: column;
+  }
+
+  .modal-header {
+    flex-direction: column;
+  }
+
+  .modal-image {
+    width: 100%;
+  }
+}

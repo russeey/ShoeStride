@@ -1,0 +1,117 @@
+.form-container {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #f1f3f6;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.Subtitleee {
+  text-align: center;
+  margin-top: -5px;  /* bring it closer to the h2 */
+  margin-bottom: 15px;
+  font-size: 14px;
+  color: #555;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input,
+select {
+  margin-bottom: 8px;   /* reduced spacing */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+button {
+  background: #000;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 10px;     /* slight space before button */
+}
+
+button:hover {
+  background: black;
+  color: white;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.gender-select {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+
+  background: #fff url("data:image/svg+xml;utf8,<svg fill='black' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>")
+              no-repeat right 10px center; /* adjust position */
+  background-size: 16px;
+
+  padding-right: 40px; 
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.name-fields {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.name-fields input {
+  flex: 1; 
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+.checkbox-container input {
+  margin-right: 8px;
+}
+
+.success {
+  color: white;
+  margin-top: 10px;
+  font-weight: bold;
+}
+.error {
+  color: red;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.success {
+  color: white;
+  margin-top: 10px;
+  font-weight: bold;
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

@@ -1,0 +1,11 @@
+# Always use LF (recommended for Vue, Firebase, Node, Linux servers)
+* text=auto eol=lf
+
+# Files that should ALWAYS be LF
+*.js   text eol=lf
+*.vue  text eol=lf
+*.html text eol=lf
+*.css  text eol=lf
+*.json text eol=lf
+*.md   text eol=lf
+*.ts   text eol=lf

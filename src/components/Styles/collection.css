@@ -1,0 +1,435 @@
+/* ---------------- Navbar ---------------- */
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.nav-center {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  color: #666;
+}
+
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.icon-btn, .icon-btnn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  background: white;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  min-width: 140px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.dropdown-item, .dropdown-itemmm {
+  display: block;
+  padding: 10px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dropdown-menu a:hover {
+  color: blue;
+}
+
+/* ---------------- Collection Header ---------------- */
+.collection-header {
+  text-align: center;
+  color: white;
+  padding: 30px;
+}
+
+.collection-header h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.collection-header p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 30px;
+}
+
+/* ---------------- Products Grid ---------------- */
+.collection-grid {
+  display: grid;
+  padding-left: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 13px;
+}
+
+/* ---------------- UNIFORM CARD SIZE FIX ---------------- */
+.product-card,
+.upload-card {
+  width: 200px;
+  height: 300px;
+  border-radius: 10px;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px;
+  transition: 0.25s ease;
+  cursor: pointer;
+}
+
+/* Product card styles */
+.product-card {
+  border: 1px solid #eee;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+}
+
+.product-card img {
+  width: 100%;
+  height: 150px;     /* FIXED HEIGHT */
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.product-card p {
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.product-card span {
+  color: black;
+}
+
+/* ---------------- Upload Card (same size as product cards) ---------------- */
+.upload-card {
+  border: 2px dashed #ccc;
+  justify-content: center;
+  color: #666;
+}
+
+.upload-card:hover {
+  background: #f7f7f7;
+  border-color: #999;
+}
+
+.upload-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+  color: #666;
+}
+
+/* DELETE BUTTON */
+.delete-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  color: rgb(248, 0, 0);
+  font-size: 14px;
+  padding: 4px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* Make sure product cards allow absolute positioning */
+.product-card {
+  position: relative;
+  z-index: auto !important;
+}
+
+
+
+/* ---------------- Modal Styles ---------------- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999 !important; /* FIX */
+}
+
+
+
+.modal-container {
+  background: white;               /* PURE WHITE MODAL BOX */
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+  .modal-container {
+  z-index: 100000 !important;
+}
+
+}
+
+
+
+.modal-close {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  cursor: pointer;
+}
+
+.product-modal-actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 15px;
+}
+
+.product-modal-actions button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  flex: 1;
+  transition: background 0.2s;
+}
+
+.product-modal-actions button.favorite-btn {
+  background: #f43f5e;
+  color: white;
+}
+
+.product-modal-actions button.favorite-btn:hover {
+  background: #e11d48;
+}
+
+.product-modal-actions button.cart-btn {
+  background: #2563eb;
+  color: white;
+}
+
+.product-modal-actions button.cart-btn:hover {
+  background: #1d4ed8;
+}
+
+/* ---------------- UPLOAD MODAL ---------------- */
+.upload-modal h2 {
+  margin-bottom: 15px;
+}
+
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.upload-form input,
+.upload-form select,
+.upload-form textarea {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.upload-btn {
+  background: #2563eb;
+  color: white;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.upload-btn:hover {
+  background: #1d4ed8;
+}
+
+/* ---------------- SELLER NAME ---------------- */
+.seller-name {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.modal-img {
+  width: 100%;
+  border-radius: 8px;
+  margin: 10px 0;
+}
+
+/* ---------------- FILTER BUTTONS ---------------- */
+.filter-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.filter-buttons button {
+  padding: 8px 18px;
+  border-radius: 6px;
+  background: #e5e5e5;
+  color: black;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.filter-buttons button:hover {
+  background: #d4d4d4;
+}
+
+.filter-buttons .active {
+  background: black;
+  color: white;
+  border-color: black;
+}
+
+.confirm-overlay {
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: rgba(0,0,0,0.55);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  backdrop-filter: blur(4px);
+  z-index:9999;
+}
+
+.confirm-box {
+  background:white;
+  padding:25px 35px;
+  border-radius:15px;
+  width:300px;
+  text-align:center;
+  box-shadow:0 8px 20px rgba(0,0,0,0.2);
+  animation: pop 0.25s ease-out;
+}
+
+.ok-btn {
+  margin-top:15px;
+  padding:10px 25px;
+  background:#111;
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.ok-btn:hover { background:#000; }
+
+@keyframes pop {
+  0% { transform: scale(0.8); opacity:0; }
+  100% { transform: scale(1); opacity:1; }
+}
+
+.size-options,
+.color-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.size-options label,
+.color-options label {
+  padding: 6px 12px;
+  background: #f3f3f3;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.size-options input,
+.color-options input {
+  margin-right: 5px;
+}
+
+.modal-overlay.hidden {
+  pointer-events: none !important;
+}
+
+.overlay-success {
+  position: fixed;
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  padding: 12px 25px;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 500;
+  z-index: 999999; /* TOP OF EVERYTHING */
+  animation: fadeInOut 1.4s ease;
+  pointer-events: none;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translate(-50%, -10px); }
+  10% { opacity: 1; transform: translate(-50%, 0); }
+  90% { opacity: 1; transform: translate(-50%, 0); }
+  100% { opacity: 0; transform: translate(-50%, -10px); }
+}
+

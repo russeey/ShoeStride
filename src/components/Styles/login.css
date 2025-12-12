@@ -1,0 +1,256 @@
+/* Reset & base */
+* {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+    background-image: url('@/assets/background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Navbar */
+.navbar {
+  width: 100%;
+  padding: 20px 0;
+  text-align: center;
+  background: none;
+  z-index: 10;
+}
+
+.navbar ul {
+  list-style: none;
+  display: inline-flex;
+  gap: 40px;
+}
+
+.navbar li a {
+  text-decoration: none;
+  font-size: 16px;
+  color: #fffbfb;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.navbar li a:hover {
+  color: #000;
+}
+
+/* Page wrapper */
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: calc(100vh - 80px);
+  padding: 40px;
+}
+
+/* Left info section */
+.left {
+  flex: 1;
+  max-width: 500px;
+}
+
+.title {
+  font-size: 60px;  
+  color: white;
+  font-weight: bold;
+}
+
+.subtitle, .desc, .info {
+  padding-top: 10px;
+  color: white;
+  margin: 5px 0;
+}
+
+/* Login box */
+.login-box {
+  width: 400px;
+  background: rgba(39, 41, 43, 0.43);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+  text-align: center;
+  position: relative;
+  z-index: 20;
+}
+
+.login-box h2 {
+  color: white;
+}
+
+.subtitlee {
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 15px;
+}
+
+/* Form */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+form input,
+form button {
+  width: 100%;
+}
+
+input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+button[type="submit"] {
+  padding: 12px;
+  background: white;
+  color: black;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+button[type="submit"]:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+/* Remember & Forgot */
+.remember-forgot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* ensures both label and link are centered vertically */
+  font-size: 12px;
+  color: white;
+  margin: 10px 0 15px;
+}
+
+.remember-forgot label {
+  display: flex;
+  align-items: center; /* centers checkbox with text */
+  gap: 5px;
+}
+
+.remember-forgot input[type="checkbox"] {
+  cursor: pointer;
+  vertical-align: middle; /* helps align checkbox with text */
+  margin: 0; /* remove any default margin */
+  width: 16px;
+  height: 16px;
+}
+
+
+/* Social login buttons */
+.social-buttons {
+  display: flex;
+  gap: 10px; /* space between icons */
+  justify-content: center; /* centers the icons */
+  margin: 10px 0;
+}
+
+.social-buttons button {
+  background: transparent;
+  border: none; /* no border */
+  padding: 0; /* remove padding */
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.social-buttons button:hover {
+  transform: scale(1.1); /* small hover effect */
+}
+
+.social-buttons button img {
+  max-width: 50px; /* adjust size to your logo */
+  height: 40px; 
+}
+
+.or {
+  padding: 10px;
+  color: white; 
+}
+
+
+/* Signup */
+.signup {
+  font-size: 14px;
+  color: rgb(255, 255, 255);
+  margin-top: 10px;
+}
+
+/* Footer links */
+.footer-links {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-top: 20px;
+  color: #fff;
+}
+
+/* Overlay */
+.overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.overlay-content {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+}
+
+.overlay-content button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Password toggle */
+.password-wrapper {
+  position: relative;
+}
+
+.show-password-text {
+  position: absolute;
+  top: 0;
+  right: 12px;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: #007bff;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Blur effect when overlay is active */
+.blurred {
+  filter: blur(5px);
+}
+
+.overlay {
+  color: white;
+}
