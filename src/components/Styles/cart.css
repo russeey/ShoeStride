@@ -474,3 +474,41 @@ textarea {
   resize: none;
   height: 70px;
 }
+
+/* ======================= QUANTITY CONTROLS ======================= */
+.qty-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: none;
+}
+
+.qty-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  border: none;
+  background: black;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.qty-btn:hover {
+  background: white;
+  color: black;
+}
+
+.qty-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.qty-value {
+  min-width: 22px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 15px;
+}

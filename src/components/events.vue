@@ -26,12 +26,24 @@
             </button>
 
             <div v-if="showDropdown" class="dropdown-menu">
-              <router-link to="/profile" class="dropdown-item" @click="showDropdown = false">
+              <router-link
+                to="/profile"
+                class="dropdown-item"
+                @click="showDropdown = false"
+              >
                 Profile
               </router-link>
-           <router-link to="/order" class="dropdown-item" @click="showDropdown=false">My order</router-link>
+              <router-link
+                to="/order"
+                class="dropdown-item"
+                @click="showDropdown = false"
+              >
+                My order
+              </router-link>
 
-              <button @click="handleLogout" class="dropdown-itemmm">Log Out</button>
+              <button @click="handleLogout" class="dropdown-itemmm">
+                Log Out
+              </button>
             </div>
           </div>
         </div>
@@ -93,6 +105,18 @@
 
       <!-- EVENT GRID -->
       <transition-group name="fade" tag="div" class="events-grid">
+
+        <!-- ✅ SELLER ADD EVENT CARD (ADDED) -->
+        <div
+          v-if="isSeller"
+          class="event-card add-event-card"
+          @click="toggleAddEvent"
+        >
+          <div class="upload-icon">＋</div>
+          <p>Add Event</p>
+        </div>
+
+        <!-- EXISTING EVENT CARDS -->
         <div
           v-for="event in visibleEvents"
           :key="event.id"
@@ -105,11 +129,17 @@
             <h3>{{ event.title }}</h3>
             <p class="location">{{ event.location }}</p>
             <p class="event-type">{{ event.type }}</p>
-            <p class="event-categories">{{ event.categories.join(' • ') }}</p>
+            <p class="event-categories">
+              {{ event.categories.join(" • ") }}
+            </p>
           </div>
         </div>
 
-        <div v-if="filteredEvents.length === 0" key="no-events" class="no-events-message">
+        <div
+          v-if="filteredEvents.length === 0"
+          key="no-events"
+          class="no-events-message"
+        >
           No events found. Check back later!
         </div>
       </transition-group>
@@ -133,7 +163,44 @@
         </button>
       </div>
 
-      <!-- MODAL -->
+      <!-- ✅ ADD EVENT MODAL (ADDED) -->
+      <div v-if="showAddEvent" class="overlay" @click.self="toggleAddEvent">
+        <div class="modal">
+          <button class="close-btn" @click="toggleAddEvent">✖</button>
+          <h2>Add Event</h2>
+
+          <form @submit.prevent="addEvent">
+            <input v-model="newEvent.title" placeholder="Title" required />
+            <input type="date" v-model="newEvent.date" required />
+            <input v-model="newEvent.location" placeholder="Location" required />
+
+            <select v-model="newEvent.type" required>
+              <option disabled value="">Select Type</option>
+              <option>Fun Run</option>
+              <option>Marathon</option>
+              <option>Half Marathon</option>
+              <option>Ultra Marathon</option>
+            </select>
+
+            <input
+              v-model="newEvent.categoriesText"
+              placeholder="Categories (comma separated)"
+              required
+            />
+
+            <textarea
+              v-model="newEvent.description"
+              placeholder="Description"
+            ></textarea>
+
+            <input type="file" @change="handleImage" required />
+
+            <button type="submit">Add Event</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- EXISTING EVENT DETAILS MODAL -->
       <div v-if="showModal" class="overlay" @click.self="closeModal">
         <div class="modal">
           <button class="close-btn" @click="closeModal">✖</button>
@@ -148,7 +215,8 @@
               <p class="modal-desc">{{ selectedEvent?.description }}</p>
               <p class="modal-extra">
                 Type: {{ selectedEvent?.type }} <br />
-                Categories: {{ selectedEvent?.categories?.join(' • ') }}
+                Categories:
+                {{ selectedEvent?.categories?.join(" • ") }}
               </p>
             </div>
           </div>
@@ -172,7 +240,12 @@
                 <label>Category</label>
                 <select v-model="form.category" required>
                   <option disabled value="">Select category</option>
-                  <option v-for="cat in selectedEvent?.categories" :key="cat">{{ cat }}</option>
+                  <option
+                    v-for="cat in selectedEvent?.categories"
+                    :key="cat"
+                  >
+                    {{ cat }}
+                  </option>
                 </select>
               </div>
 
@@ -193,7 +266,9 @@
                 <textarea v-model="form.notes" rows="3"></textarea>
               </div>
 
-              <button class="register-btn" type="submit">Submit Registration</button>
+              <button class="register-btn" type="submit">
+                Submit Registration
+              </button>
             </form>
           </div>
         </div>
@@ -203,6 +278,7 @@
   </div>
 </template>
 
+
 <script>
 import { ref, computed } from "vue";
 import emailjs from "emailjs-com";
@@ -211,6 +287,11 @@ import iliganImg from "@/assets/iligan.png";
 import funrunImg from "@/assets/funrun.png";
 import freedomrun from "@/assets/funrun6.png";
 import { useLogout } from "./Scripts/homescript.js";
+
+/* ✅ ADDED IMPORTS (SELLER ROLE) */
+import { auth, db } from "../firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
 export default {
   name: "Events",
@@ -384,7 +465,6 @@ export default {
         notes: form.value.notes || "None"
       };
 
-      /* Submit to Google Sheets */
       try {
         await fetch(
           "https://script.google.com/macros/s/AKfycbykz5buukRuHIRjqKlpNP1qT26i4h3ZZekGdxDrwlPRy0tqXR1i_UCIl95JAl1vuPfbuA/exec",
@@ -399,7 +479,6 @@ export default {
         console.error("Sheets Error:", err);
       }
 
-      /* EmailJS */
       emailjs
         .send("service_a7gh7rg", "template_21rnnd8", payload, "1GnKwfiFgGJJfoKbn")
         .then(() => {
@@ -410,6 +489,69 @@ export default {
           console.error("EmailJS Error:", error);
           alert("Error sending email.");
         });
+    };
+
+    /* ------------------------------------
+     ✅ SELLER ADD EVENT (ADDED ONLY)
+    ------------------------------------ */
+    const isSeller = ref(false);
+    const showAddEvent = ref(false);
+    const eventImage = ref(null);
+
+    const newEvent = ref({
+      title: "",
+      date: "",
+      location: "",
+      type: "",
+      categoriesText: "",
+      description: ""
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) return;
+      const snap = await getDoc(doc(db, "users", user.uid));
+      if (snap.exists()) {
+        isSeller.value = snap.data().role === "seller";
+      }
+    });
+
+    const toggleAddEvent = () => {
+      showAddEvent.value = !showAddEvent.value;
+    };
+
+    const handleImage = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        eventImage.value = URL.createObjectURL(file);
+      }
+    };
+
+    const addEvent = () => {
+      events.value.unshift({
+        id: Date.now(),
+        title: newEvent.value.title,
+        date: newEvent.value.date,
+        displayDate: new Date(newEvent.value.date).toDateString(),
+        location: newEvent.value.location,
+        type: newEvent.value.type,
+        categories: newEvent.value.categoriesText
+          .split(",")
+          .map((c) => c.trim()),
+        image: eventImage.value,
+        description: newEvent.value.description
+      });
+
+      newEvent.value = {
+        title: "",
+        date: "",
+        location: "",
+        type: "",
+        categoriesText: "",
+        description: ""
+      };
+
+      eventImage.value = null;
+      toggleAddEvent();
     };
 
     /* ------------------------------------
@@ -438,10 +580,19 @@ export default {
       submitRegistration,
       showDropdown,
       toggleDropdown,
-      handleLogout
+      handleLogout,
+
+      /* ✅ ADDED RETURNS */
+      isSeller,
+      showAddEvent,
+      toggleAddEvent,
+      newEvent,
+      handleImage,
+      addEvent
     };
   },
 };
 </script>
+
 
 <style src="./Styles/event.css"></style>

@@ -39,22 +39,38 @@
     <div class="cart-page">
       <h1>My Cart</h1>
 
-      <div v-if="cart.length === 0" class="empty-msg">Your cart is empty.</div>
+      <div v-if="cart.length === 0" class="empty-msg">
+        Your cart is empty.
+      </div>
 
       <div v-else class="cart-items">
-        <div class="cart-item" v-for="(item, index) in cart" :key="index">
-
+        <div
+          class="cart-item"
+          v-for="(item, index) in cart"
+          :key="index"
+        >
           <input type="checkbox" v-model="checkedItems" :value="item" />
 
           <img :src="item.image" class="cart-img" />
 
           <div class="item-info">
             <h3 class="item-title">{{ item.name }}</h3>
-            <p class="item-sub">Size: {{ item.size }} | Color: {{ item.color }}</p>
+            <p class="item-sub">
+              Size: {{ item.size }} | Color: {{ item.color }}
+            </p>
             <p class="item-price">Php {{ item.price }}</p>
           </div>
 
-          <button class="remove-btn" @click="removeFromCart(item)">Remove</button>
+          <!-- ✅ QUANTITY CONTROLS (ADDED ONLY) -->
+          <div class="qty-control">
+            <button class="qty-btn" @click="decreaseQty(item)">−</button>
+            <span class="qty-value">{{ item.quantity }}</span>
+            <button class="qty-btn" @click="increaseQty(item)">+</button>
+          </div>
+        
+          <button class="remove-btn" @click="removeFromCart(item)">
+            Remove
+          </button>
         </div>
       </div>
 
@@ -69,13 +85,17 @@
       </div>
 
       <!-- CHECKOUT MODAL -->
-      <div v-if="showCheckout" class="checkout-overlay" @click.self="closeCheckout">
+      <div
+        v-if="showCheckout"
+        class="checkout-overlay"
+        @click.self="closeCheckout"
+      >
         <div class="checkout-modal" @click.stop>
           <button class="close-btn" @click="closeCheckout">✖</button>
 
           <h2>Checkout Summary</h2>
 
-          <!-- 🔹 USER DETAILS - EDITABLE -->
+          <!-- USER DETAILS -->
           <div class="user-details-box">
             <h3>User Details</h3>
 
@@ -96,12 +116,21 @@
           </div>
 
           <div class="checkout-items">
-            <div class="checkout-item" v-for="(item, index) in checkedItems" :key="index">
+            <div
+              class="checkout-item"
+              v-for="(item, index) in checkedItems"
+              :key="index"
+            >
               <img :src="item.image" />
               <div class="checkout-details">
                 <div class="title">{{ item.name }}</div>
-                <div class="price">Size: {{ item.size }} | Color: {{ item.color }}</div>
-                <div class="price">Price: Php {{ item.price }}</div>
+                <div class="price">
+                  Size: {{ item.size }} | Color: {{ item.color }}
+                </div>
+                <div class="price">Qty: {{ item.quantity }}</div>
+                <div class="price">
+                  Price: Php {{ item.price * item.quantity }}
+                </div>
               </div>
             </div>
           </div>
@@ -139,11 +168,14 @@
       </div>
 
       <!-- RECEIPT OVERLAY -->
-      <div v-if="showReceipt" class="receipt-overlay" @click.self="showReceipt=false">
+      <div
+        v-if="showReceipt"
+        class="receipt-overlay"
+        @click.self="showReceipt=false"
+      >
         <div class="receipt-box" @click.stop>
           <h2>Order Receipt</h2>
 
-          <!-- USER DETAILS IN RECEIPT -->
           <div class="receipt-user">
             <p><strong>Name:</strong> {{ recentUser.fullName }}</p>
             <p><strong>Phone:</strong> {{ recentUser.phone }}</p>
@@ -151,30 +183,48 @@
           </div>
 
           <div class="receipt-items">
-            <div class="receipt-item" v-for="(item, index) in recentOrder" :key="index">
+            <div
+              class="receipt-item"
+              v-for="(item, index) in recentOrder"
+              :key="index"
+            >
               <img :src="item.image" />
               <div>
                 <p class="r-title">{{ item.name }}</p>
-                <p class="r-sub">Size: {{ item.size }} | Color: {{ item.color }}</p>
-                <p class="r-price">Php {{ item.price }}</p>
+                <p class="r-sub">
+                  Size: {{ item.size }} | Color: {{ item.color }}
+                </p>
+                <p>Qty: {{ item.quantity }}</p>
+                <p class="r-price">
+                  Php {{ item.price * item.quantity }}
+                </p>
               </div>
             </div>
           </div>
 
-          <h3 class="receipt-total">Total: Php {{
-            recentOrder.reduce((t, i) => t + i.price, 0)
-          }}</h3>
+          <h3 class="receipt-total">
+            Total: Php {{
+              recentOrder.reduce(
+                (t, i) => t + i.price * i.quantity,
+                0
+              )
+            }}
+          </h3>
 
           <p class="receipt-method">Payment: {{ recentPayment }}</p>
-          <p class="receipt-time">Time: {{ new Date().toLocaleString() }}</p>
+          <p class="receipt-time">
+            Time: {{ new Date().toLocaleString() }}
+          </p>
 
-          <button class="close-receipt" @click="finishReceipt">Close</button>
+          <button class="close-receipt" @click="finishReceipt">
+            Close
+          </button>
         </div>
       </div>
-
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
@@ -210,9 +260,14 @@ const userInfo = ref({
 });
 
 // -----------------------------------------------------------
-// LOAD USER DETAILS
+// ✅ INITIALIZE QUANTITY (ADDED ONLY)
 // -----------------------------------------------------------
 onMounted(async () => {
+  // Ensure every cart item has quantity
+  cart.value.forEach(item => {
+    if (!item.quantity) item.quantity = 1;
+  });
+
   const user = auth.currentUser;
   if (!user) return;
 
@@ -228,7 +283,22 @@ onMounted(async () => {
 });
 
 // -----------------------------------------------------------
-// SAVE USER DETAILS
+// ✅ QUANTITY CONTROLS (ADDED ONLY)
+// -----------------------------------------------------------
+const increaseQty = (item) => {
+  item.quantity++;
+  localStorage.setItem("cart", JSON.stringify(cart.value));
+};
+
+const decreaseQty = (item) => {
+  if (item.quantity > 1) {
+    item.quantity--;
+    localStorage.setItem("cart", JSON.stringify(cart.value));
+  }
+};
+
+// -----------------------------------------------------------
+// SAVE USER DETAILS (UNCHANGED)
 // -----------------------------------------------------------
 const saveUserDetails = async () => {
   const user = auth.currentUser;
@@ -246,19 +316,25 @@ const saveUserDetails = async () => {
 };
 
 // -----------------------------------------------------------
-// CHECKOUT UI
+// CHECKOUT UI (UNCHANGED)
 // -----------------------------------------------------------
 const openCheckout = () =>
   checkedItems.value.length && (showCheckout.value = true);
 
 const closeCheckout = () => (showCheckout.value = false);
 
+// -----------------------------------------------------------
+// ✅ TOTAL WITH QUANTITY (UPDATED SAFELY)
+// -----------------------------------------------------------
 const totalAmount = computed(() =>
-  checkedItems.value.reduce((sum, i) => sum + i.price, 0)
+  checkedItems.value.reduce(
+    (sum, i) => sum + i.price * i.quantity,
+    0
+  )
 );
 
 // -----------------------------------------------------------
-// SAFE REVENUE UPDATE (compatible with your Firestore rules)
+// SAFE REVENUE UPDATE (UNCHANGED)
 // -----------------------------------------------------------
 const updateSellerRevenue = async (item) => {
   const sellerId = item.sellerId;
@@ -266,19 +342,17 @@ const updateSellerRevenue = async (item) => {
 
   const sellerRef = doc(db, "users", sellerId);
   const snap = await getDoc(sellerRef);
-
   if (!snap.exists()) return;
 
   const currentRevenue = snap.data().revenue || 0;
 
-  // Only buyers updating revenue is allowed under your current rules
   await updateDoc(sellerRef, {
-    revenue: currentRevenue + item.price
+    revenue: currentRevenue + item.price * item.quantity
   });
 };
 
 // -----------------------------------------------------------
-// MAIN PAYMENT HANDLER
+// MAIN PAYMENT HANDLER (UNCHANGED STRUCTURE)
 // -----------------------------------------------------------
 const confirmPayment = async () => {
   await saveUserDetails();
@@ -289,7 +363,7 @@ const confirmPayment = async () => {
   const orderRef = collection(db, "orders", user.uid, "items");
 
   // ---------------------------------------------------------
-  // GCASH PAYMENT
+  // GCASH
   // ---------------------------------------------------------
   if (paymentMethod.value === "GCash") {
     recentOrder.value = [...checkedItems.value];
@@ -297,7 +371,6 @@ const confirmPayment = async () => {
     recentUser.value = { ...userInfo.value };
 
     for (const item of checkedItems.value) {
-      // Save order
       await addDoc(orderRef, {
         ...item,
         paymentMethod: "GCash",
@@ -307,18 +380,15 @@ const confirmPayment = async () => {
 
       await updateSellerRevenue(item);
 
-      // SAFE update to product (allowed by rules)
       await updateDoc(doc(db, "products", item.id), {
         sold: true,
         soldAt: Date.now()
       });
     }
 
-    // Remove from cart
     cart.value = cart.value.filter(i => !checkedItems.value.includes(i));
     localStorage.setItem("cart", JSON.stringify(cart.value));
 
-    // PAYMONGO REQUEST
     const res = await axios.post("http://localhost:5000/create-gcash", {
       amount: totalAmount.value,
       items: checkedItems.value,
@@ -332,14 +402,11 @@ const confirmPayment = async () => {
     return;
   }
 
-  // ---------------------------------------------------------
-  // COD PAYMENT
-  // ---------------------------------------------------------
   saveOrder("COD");
 };
 
 // -----------------------------------------------------------
-// SAVE COD ORDER
+// SAVE COD ORDER (UNCHANGED)
 // -----------------------------------------------------------
 const saveOrder = async (method = "COD") => {
   const user = auth.currentUser;
@@ -362,7 +429,6 @@ const saveOrder = async (method = "COD") => {
     await updateSellerRevenue(item);
   }
 
-  // Clean cart
   cart.value = cart.value.filter(i => !checkedItems.value.includes(i));
   localStorage.setItem("cart", JSON.stringify(cart.value));
 
@@ -376,6 +442,7 @@ const finishReceipt = () => {
   router.push("/order");
 };
 </script>
+
 
 
 <style src="./Styles/cart.css"></style>

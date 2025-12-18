@@ -28,9 +28,25 @@
             </button>
 
             <div v-if="showDropdown" class="dropdown-menu">
-              <router-link to="/profile" class="dropdown-item" @click="showDropdown=false">Profile</router-link>
-              <router-link to="/order" class="dropdown-item" @click="showDropdown=false">My order</router-link>
-              <button class="dropdown-itemmm" @click="handleLogout">Log Out</button>
+              <router-link
+                to="/profile"
+                class="dropdown-item"
+                @click="showDropdown = false"
+              >
+                Profile
+              </router-link>
+
+              <router-link
+                to="/order"
+                class="dropdown-item"
+                @click="showDropdown = false"
+              >
+                My order
+              </router-link>
+
+              <button class="dropdown-itemmm" @click="handleLogout">
+                Log Out
+              </button>
             </div>
           </div>
         </div>
@@ -44,16 +60,37 @@
 
     <!-- FILTER BUTTONS -->
     <div class="filter-buttons">
-      <button :class="{ active: selectedFilter === 'all' }" @click="selectedFilter = 'all'">All</button>
-      <button :class="{ active: selectedFilter === 'shoes' }" @click="selectedFilter = 'shoes'">Shoes</button>
-      <button :class="{ active: selectedFilter === 'accessories' }" @click="selectedFilter = 'accessories'">Accessories</button>
+      <button
+        :class="{ active: selectedFilter === 'all' }"
+        @click="selectedFilter = 'all'"
+      >
+        All
+      </button>
+
+      <button
+        :class="{ active: selectedFilter === 'shoes' }"
+        @click="selectedFilter = 'shoes'"
+      >
+        Shoes
+      </button>
+
+      <button
+        :class="{ active: selectedFilter === 'accessories' }"
+        @click="selectedFilter = 'accessories'"
+      >
+        Accessories
+      </button>
     </div>
 
     <!-- PRODUCTS GRID -->
     <div class="collection-grid">
 
       <!-- SELLER UPLOAD BUTTON -->
-      <div v-if="isSeller" class="product-card upload-card" @click="toggleUploadForm">
+      <div
+        v-if="isSeller"
+        class="product-card upload-card"
+        @click="toggleUploadForm"
+      >
         <div class="upload-icon">＋</div>
         <p>Add Product</p>
       </div>
@@ -74,19 +111,36 @@
           ✖
         </div>
 
+        <!-- SELLER NAME BADGE -->
+        <div
+          v-if="product.sellerName"
+          class="seller-badge"
+        >
+          {{ product.sellerName }}
+        </div>
+
         <!-- PRODUCT IMAGE -->
         <img
           :src="product.colorImages?.[product.colors?.[0]] || product.image"
           @click="openProductModal(product)"
         />
 
-        <p @click="openProductModal(product)">{{ product.name }}</p>
-        <span @click="openProductModal(product)">Php. {{ product.price }}</span>
+        <p @click="openProductModal(product)">
+          {{ product.name }}
+        </p>
+
+        <span @click="openProductModal(product)">
+          Php. {{ product.price }}
+        </span>
       </div>
     </div>
 
     <!-- UPLOAD MODAL -->
-    <div v-if="showUploadForm" class="modal-overlay" @click.self="toggleUploadForm">
+    <div
+      v-if="showUploadForm"
+      class="modal-overlay"
+      @click.self="toggleUploadForm"
+    >
       <div class="modal-container upload-modal">
         <button class="modal-close" @click="toggleUploadForm">✖</button>
 
@@ -94,21 +148,35 @@
 
         <form @submit.prevent="uploadProduct" class="upload-form">
 
-          <input type="text" v-model="name" placeholder="Product Name" required />
-          <input type="number" v-model="price" placeholder="Price" required />
+          <input
+            type="text"
+            v-model="name"
+            placeholder="Product Name"
+            required
+          />
+
+          <input
+            type="number"
+            v-model="price"
+            placeholder="Price"
+            required
+          />
 
           <select v-model="productType" required>
             <option value="shoes">Shoes</option>
             <option value="accessories">Accessories</option>
           </select>
 
-          <textarea v-model="description" placeholder="Description"></textarea>
+          <textarea
+            v-model="description"
+            placeholder="Description"
+          ></textarea>
 
-          <!-- SIZES -->
+          <!-- AVAILABLE SIZES -->
           <label>Available Sizes:</label>
           <div class="size-options">
             <label v-for="s in allSizes" :key="s">
-              <input type="checkbox" :value="s" v-model="availableSizes">
+              <input type="checkbox" :value="s" v-model="availableSizes" />
               {{ s }}
             </label>
           </div>
@@ -117,13 +185,16 @@
           <label>Available Colors:</label>
           <div class="color-options">
             <label v-for="c in allColors" :key="c">
-              <input type="checkbox" :value="c" v-model="availableColors">
+              <input type="checkbox" :value="c" v-model="availableColors" />
               {{ c }}
             </label>
           </div>
 
           <!-- IMAGE PER COLOR -->
-          <div v-if="availableColors.length > 0" class="color-image-upload">
+          <div
+            v-if="availableColors.length > 0"
+            class="color-image-upload"
+          >
             <h3>Upload Image for Each Selected Color</h3>
 
             <div
@@ -132,12 +203,21 @@
               class="color-upload-row"
             >
               <label>{{ color }}:</label>
-              <input type="file" accept="image/*" @change="(e) => handleColorImageUpload(e, color)" />
+              <input
+                type="file"
+                accept="image/*"
+                @change="(e) => handleColorImageUpload(e, color)"
+              />
             </div>
           </div>
 
           <!-- FALLBACK IMAGE -->
-          <input type="file" accept="image/*" @change="handleFile" required />
+          <input
+            type="file"
+            accept="image/*"
+            @change="handleFile"
+            required
+          />
 
           <button class="upload-btn">
             {{ uploading ? "Uploading..." : "Upload Product" }}
@@ -149,7 +229,6 @@
     <!-- PRODUCT MODAL -->
     <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
       <div class="modal-container">
-
         <button class="modal-close" @click="closeModal">✖</button>
 
         <img
@@ -158,59 +237,96 @@
         />
 
         <h2>{{ selectedProduct.name }}</h2>
+
+        <!-- SELLER NAME IN MODAL -->
+        <p v-if="selectedProduct.sellerName" class="modal-seller">
+          Sold by {{ selectedProduct.sellerName }}
+        </p>
+
         <p>Php {{ selectedProduct.price }}</p>
 
         <!-- SIZE SELECT -->
-        <label>Size:</label>
-        <select v-model="selectedSize">
-          <option v-for="s in selectedProduct.sizes" :key="s" :value="s">
-            {{ s }}
-          </option>
-        </select>
+        <div v-if="hasSizes">
+          <label>Size:</label>
+          <select v-model="selectedSize">
+            <option
+              v-for="s in selectedProduct.sizes"
+              :key="s"
+              :value="s"
+            >
+              {{ s }}
+            </option>
+          </select>
+        </div>
 
         <!-- COLOR SELECT -->
-        <label>Color:</label>
-        <select v-model="selectedColor">
-          <option v-for="c in selectedProduct.colors" :key="c" :value="c">
-            {{ c }}
-          </option>
-        </select>
+        <div v-if="hasColors">
+          <label>Color:</label>
+          <select v-model="selectedColor">
+            <option
+              v-for="c in selectedProduct.colors"
+              :key="c"
+              :value="c"
+            >
+              {{ c }}
+            </option>
+          </select>
+        </div>
 
         <!-- ACTION BUTTONS -->
         <div class="product-modal-actions">
-          <button class="cart-btn" @click="addToCart(selectedProduct)">Add to Cart</button>
-          <button class="favorite-btn" @click="addToFavorites(selectedProduct)">Favorite</button>
-        </div>
+            <button class="cart-btn" @click="addToCart">Add to Cart</button>
 
+
+
+            <button class="favorite-btn" @click="addToFavorites">
+              Favorite
+            </button>
+
+        </div>
       </div>
     </div>
 
-    <!-- OVERLAY SUCCESS -->
-    <div v-if="showOverlay" class="overlay-success">
-      {{ overlayMessage }}
-    </div>
-
-    <!-- ⭐⭐⭐ DELETE CONFIRMATION MODAL (ADDED BY REQUEST — ONLY THIS) ⭐⭐⭐ -->
-    <div v-if="showDeleteConfirm" class="modal-overlay" @click.self="cancelDeleteProduct">
+    <!-- DELETE CONFIRM MODAL -->
+    <div
+      v-if="showDeleteConfirm"
+      class="modal-overlay"
+      @click.self="cancelDeleteProduct"
+    >
       <div class="modal-container delete-modal">
-
         <h2>Delete Product?</h2>
         <p>This action cannot be undone.</p>
 
         <div class="delete-actions">
-          <button class="cancel-btn" @click="cancelDeleteProduct">Cancel</button>
-          <button class="delete-confirm-btn" @click="confirmDeleteProduct">Delete</button>
+          <button class="cancel-btn" @click="cancelDeleteProduct">
+            Cancel
+          </button>
+          <button class="delete-confirm-btn" @click="confirmDeleteProduct">
+            Delete
+          </button>
         </div>
       </div>
     </div>
+
   </div>
 </template>
+
+
 
 <script setup>
 import { ref, onMounted, computed, watch } from "vue";
 import { useRouter } from "vue-router";
+
 import { db, auth } from "../firebase";
-import { collection, getDocs, addDoc, doc, getDoc, deleteDoc, serverTimestamp } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  doc,
+  getDoc,
+  deleteDoc,
+  serverTimestamp
+} from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
 import canvasImg from "@/assets/canvas.png";
@@ -225,34 +341,64 @@ const router = useRouter();
 
 /* ---------------- DEFAULT MODELS ---------------- */
 const defaultModels = [
-  { name: "Running canvas shoes", price: 2999, image: canvasImg, sellerName: "Default Shop", productType: "shoes" },
-  { name: "Running casual shoes", price: 2999, image: rcasualImg, sellerName: "Default Shop", productType: "shoes" },
-  { name: "Casual Nike shoes", price: 2999, image: menImg, sellerName: "Default Shop", productType: "shoes" }
+  {
+    name: "Running canvas shoes",
+    price: 2999,
+    image: canvasImg,
+    productType: "shoes",
+    sellerName: "ShoeStride"
+  },
+  {
+    name: "Running casual shoes",
+    price: 2999,
+    image: rcasualImg,
+    productType: "shoes",
+    sellerName: "ShoeStride"
+  },
+  {
+    name: "Casual Nike shoes",
+    price: 2999,
+    image: menImg,
+    productType: "shoes",
+    sellerName: "ShoeStride"
+  }
 ];
 
 /* ---------------- LOAD PRODUCTS ---------------- */
 const products = ref([]);
+
 const loadProducts = async () => {
   const snapshot = await getDocs(collection(db, "products"));
-  products.value = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  products.value = snapshot.docs.map(d => ({
+    id: d.id,
+    ...d.data()
+  }));
 };
+
 onMounted(loadProducts);
 
 /* ---------------- AUTH / SELLER ---------------- */
 const isSeller = ref(false);
 const currentUserId = ref(null);
+const currentUserName = ref("Seller");
 
 onAuthStateChanged(auth, async (user) => {
   currentUserId.value = user ? user.uid : null;
-  if (!user) return (isSeller.value = false);
 
-  const userRef = doc(db, "users", user.uid);
-  const snap = await getDoc(userRef);
+  if (!user) {
+    isSeller.value = false;
+    return;
+  }
 
-  isSeller.value = snap.exists() && snap.data().role === "seller";
+  const snap = await getDoc(doc(db, "users", user.uid));
+  if (snap.exists()) {
+    const data = snap.data();
+    isSeller.value = data.role === "seller";
+    currentUserName.value = data.name || data.username || "Seller";
+  }
 });
 
-/* ---------------- UPLOAD SYSTEM ---------------- */
+/* ---------------- UPLOAD STATE ---------------- */
 const showUploadForm = ref(false);
 const name = ref("");
 const price = ref("");
@@ -261,39 +407,48 @@ const productType = ref("shoes");
 const file = ref(null);
 const uploading = ref(false);
 
-/* SIZE & COLOR OPTIONS */
-const allSizes = ["6","7","8","9","10","11"];
-const allColors = ["Red","Black","Blue","White","Green","Gray"];
+/* ---------------- SIZES ---------------- */
+const shoeSizes = ["6", "7", "8", "9", "10", "11"];
+const accessorySizes = ["XS", "S", "M", "L", "XL", "XXL"];
+
+const allSizes = computed(() =>
+  productType.value === "shoes" ? shoeSizes : accessorySizes
+);
 
 const availableSizes = ref([]);
-const availableColors = ref([]);
+watch(productType, () => {
+  availableSizes.value = [];
+});
 
+/* ---------------- COLORS ---------------- */
+const allColors = ["Red", "Black", "Blue", "White", "Green", "Gray"];
+const availableColors = ref([]);
 const colorImages = ref({});
 
-/* Toggle upload form */
+/* ---------------- UPLOAD TOGGLE ---------------- */
 const toggleUploadForm = () => {
-  if (!isSeller.value) return alert("Only sellers can upload products.");
+  if (!isSeller.value) {
+    alert("Only sellers can upload products.");
+    return;
+  }
   showUploadForm.value = !showUploadForm.value;
 };
 
-/* Main image fallback */
 const handleFile = (e) => {
   file.value = e.target.files[0];
 };
 
-/* File → base64 */
-function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
+/* ---------------- IMAGE UPLOAD ---------------- */
+const fileToBase64 = (file) =>
+  new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result);
     reader.onerror = reject;
     reader.readAsDataURL(file);
   });
-}
 
 const IMGBB_KEY = "1625bffbcaa3ffd31209bacb3d3c450c";
 
-/* Upload to imgbb */
 const uploadToImgbb = async (imageFile) => {
   const base64 = await fileToBase64(imageFile);
   const form = new FormData();
@@ -306,37 +461,39 @@ const uploadToImgbb = async (imageFile) => {
   });
 
   const data = await res.json();
-  if (!data.success) throw new Error("Image upload failed");
-
+  if (!data.success) throw new Error("Upload failed");
   return data.data.url;
 };
 
-/* Upload image for each selected color */
 const handleColorImageUpload = async (e, color) => {
-  const selected = e.target.files[0];
-  if (!selected) return;
-
-  try {
-    const url = await uploadToImgbb(selected);
-    colorImages.value[color] = url;
-  } catch {
-    alert("Failed to upload image for " + color);
-  }
+  const img = e.target.files[0];
+  if (!img) return;
+  colorImages.value[color] = await uploadToImgbb(img);
 };
 
-/* SAVE PRODUCT */
+/* ---------------- UPLOAD PRODUCT ---------------- */
 const uploadProduct = async () => {
-  if (!file.value && Object.keys(colorImages.value).length === 0) {
-    return alert("Please upload at least one image.");
+  if (availableSizes.value.length === 0) {
+    alert("Please select at least one size.");
+    return;
+  }
+
+  if (availableColors.value.length === 0) {
+    alert("Please select at least one color.");
+    return;
+  }
+
+  if (!file.value && !Object.keys(colorImages.value).length) {
+    alert("Upload at least one image.");
+    return;
   }
 
   uploading.value = true;
 
   try {
-    const user = auth.currentUser;
     const imageUrl = file.value ? await uploadToImgbb(file.value) : "";
 
-    await addDoc(collection(db, "products"), {
+    const productData = {
       name: name.value,
       price: Number(price.value),
       description: description.value,
@@ -345,24 +502,105 @@ const uploadProduct = async () => {
       sizes: availableSizes.value,
       colors: availableColors.value,
       colorImages: colorImages.value,
-      sellerId: user.uid,
-      sellerEmail: user.email,
-      sellerName: user.displayName || "Unknown Seller",
+      sellerId: currentUserId.value,
+      sellerName: currentUserName.value,
       createdAt: serverTimestamp()
-    });
+    };
 
-    uploading.value = false;
+    await addDoc(collection(db, "products"), productData);
+
     showUploadForm.value = false;
-
+    name.value = "";
+    price.value = "";
+    description.value = "";
+    availableSizes.value = [];
     availableColors.value = [];
     colorImages.value = {};
     file.value = null;
 
     await loadProducts();
   } catch {
-    uploading.value = false;
     alert("Upload failed.");
+  } finally {
+    uploading.value = false;
   }
+};
+
+/* ---------------- PRODUCT MODAL ---------------- */
+const showModal = ref(false);
+const selectedProduct = ref({});
+const selectedSize = ref(null);
+const selectedColor = ref(null);
+const selectedImage = ref("");
+
+const hasSizes = computed(() =>
+  Array.isArray(selectedProduct.value.sizes) &&
+  selectedProduct.value.sizes.length > 0
+);
+
+const hasColors = computed(() =>
+  Array.isArray(selectedProduct.value.colors) &&
+  selectedProduct.value.colors.length > 0
+);
+
+const openProductModal = (product) => {
+  selectedProduct.value = product;
+  selectedSize.value = hasSizes.value ? product.sizes[0] : null;
+  selectedColor.value = hasColors.value ? product.colors[0] : null;
+
+  selectedImage.value =
+    product.colorImages?.[selectedColor.value] || product.image;
+
+  showModal.value = true;
+};
+
+const closeModal = () => {
+  showModal.value = false;
+};
+
+watch(selectedColor, () => {
+  if (selectedProduct.value?.colorImages?.[selectedColor.value]) {
+    selectedImage.value =
+      selectedProduct.value.colorImages[selectedColor.value];
+  }
+});
+
+/* ---------------- ADD TO CART / FAVORITES (NEW) ---------------- */
+const showOverlay = ref(false);
+const overlayMessage = ref("");
+
+const triggerOverlay = (message) => {
+  overlayMessage.value = message;
+  showOverlay.value = true;
+
+  setTimeout(() => {
+    showOverlay.value = false;
+  }, 1500);
+};
+
+const { addFavorite } = useFavorites();
+const { addCart } = useCart();
+
+const addToFavorites = () => {
+  addFavorite({
+    ...selectedProduct.value,
+    selectedSize: hasSizes.value ? selectedSize.value : null,
+    selectedColor: hasColors.value ? selectedColor.value : null,
+    image: selectedImage.value
+  });
+
+  triggerOverlay("❤️ Added to Favorites!");
+};
+
+const addToCart = () => {
+  addCart({
+    ...selectedProduct.value,
+    selectedSize: hasSizes.value ? selectedSize.value : null,
+    selectedColor: hasColors.value ? selectedColor.value : null,
+    image: selectedImage.value
+  });
+
+  triggerOverlay("🛒 Added to Cart!");
 };
 
 /* ---------------- DELETE PRODUCT ---------------- */
@@ -375,13 +613,13 @@ const requestDeleteProduct = (id) => {
 };
 
 const confirmDeleteProduct = async () => {
-  try {
-    await deleteDoc(doc(db, "products", deleteTargetId.value));
-    await loadProducts();
-  } finally {
-    showDeleteConfirm.value = false;
-    deleteTargetId.value = null;
-  }
+  if (!deleteTargetId.value) return;
+
+  await deleteDoc(doc(db, "products", deleteTargetId.value));
+  await loadProducts();
+
+  showDeleteConfirm.value = false;
+  deleteTargetId.value = null;
 };
 
 const cancelDeleteProduct = () => {
@@ -389,98 +627,26 @@ const cancelDeleteProduct = () => {
   deleteTargetId.value = null;
 };
 
-/* ---------------- FILTER SYSTEM ---------------- */
+/* ---------------- FILTER ---------------- */
 const selectedFilter = ref("all");
 
-const mergedProducts = computed(() => [...defaultModels, ...products.value]);
+const mergedProducts = computed(() => [
+  ...defaultModels,
+  ...products.value
+]);
 
 const filteredProducts = computed(() => {
   if (selectedFilter.value === "all") return mergedProducts.value;
   return mergedProducts.value.filter(
-    (p) => (p.productType || "shoes") === selectedFilter.value
+    p => (p.productType || "shoes") === selectedFilter.value
   );
 });
-
-/* ---------------- PRODUCT MODAL ---------------- */
-const showModal = ref(false);
-const selectedProduct = ref({});
-const selectedSize = ref("");
-const selectedColor = ref("");
-const selectedImage = ref("");
-
-/* ⭐ OPEN MODAL — choose correct first color image */
-const openProductModal = (p) => {
-  selectedProduct.value = JSON.parse(JSON.stringify(p));
-  selectedSize.value = selectedProduct.value.sizes?.[0] || "";
-  selectedColor.value = selectedProduct.value.colors?.[0] || "";
-
-  // pick correct image based on selected color
-  if (selectedProduct.value.colorImages && selectedProduct.value.colorImages[selectedColor.value]) {
-    selectedImage.value = selectedProduct.value.colorImages[selectedColor.value];
-  } else {
-    selectedImage.value = selectedProduct.value.image;
-  }
-
-  showModal.value = true;
-};
-
-const closeModal = () => {
-  showModal.value = false;
-};
-
-/* ⭐ update image when color changes */
-watch(selectedColor, () => {
-  if (selectedProduct.value.colorImages?.[selectedColor.value]) {
-    selectedImage.value = selectedProduct.value.colorImages[selectedColor.value];
-  } else {
-    selectedImage.value = selectedProduct.value.image;
-  }
-});
-
-/* ---------------- FAVORITES & CART ---------------- */
-const { addFavorite } = useFavorites();
-const { addCart } = useCart();
-
-/* ⭐ OVERLAY SYSTEM */
-const showOverlay = ref(false);
-const overlayMessage = ref("");
-
-const triggerOverlay = (msg) => {
-  overlayMessage.value = msg;
-  showOverlay.value = true;
-
-  setTimeout(() => {
-    showOverlay.value = false;
-  }, 1500);
-};
-
-/* ⭐ ADD FAVORITE — save selected color image */
-const addToFavorites = () => {
-  const productData = {
-    ...selectedProduct.value,
-    selectedColor: selectedColor.value,
-    selectedSize: selectedSize.value,
-    image: selectedImage.value   // << IMPORTANT
-  };
-  addFavorite(productData);
-  triggerOverlay("❤️ Added to Favorites!");
-};
-
-/* ⭐ ADD CART — save selected color image */
-const addToCart = () => {
-  const productData = {
-    ...selectedProduct.value,
-    selectedColor: selectedColor.value,
-    selectedSize: selectedSize.value,
-    image: selectedImage.value   // << IMPORTANT
-  };
-  addCart(productData);
-  triggerOverlay("🛒 Added to Cart!");
-};
 
 /* ---------------- LOGOUT / DROPDOWN ---------------- */
 const { logout, showDropdown, toggleDropdown } = useLogout();
 const handleLogout = () => logout();
 </script>
+
+  
 
 <style src="./Styles/collection.css"></style>

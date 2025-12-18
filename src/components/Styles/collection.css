@@ -189,6 +189,35 @@
   z-index: auto !important;
 }
 
+/* Seller name label */
+.product-card .seller-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 6px;
+  align-self: flex-start;
+}
+
+/* Seller badge over product image */
+.seller-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 12px;
+  z-index: 6;
+  pointer-events: none;
+  max-width: 80%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
 
 
 /* ---------------- Modal Styles ---------------- */
@@ -206,8 +235,6 @@
   z-index: 99999 !important; /* FIX */
 }
 
-
-
 .modal-container {
   background: white;               /* PURE WHITE MODAL BOX */
   padding: 20px;
@@ -221,8 +248,6 @@
 }
 
 }
-
-
 
 .modal-close {
   background: transparent;

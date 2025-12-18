@@ -1,11 +1,13 @@
 <template>
   <div class="admin-container">
 
+    <!-- TOP BAR -->
     <header class="topbar">
       <button class="menu-btn" @click="toggleSidebar">☰</button>
       <h1>Admin Dashboard</h1>
     </header>
 
+    <!-- SIDEBAR -->
     <aside class="sidebar" :class="{ open: sidebarOpen }">
       <div class="sidebar-header">
         <h2>Admin Panel</h2>
@@ -29,8 +31,9 @@
     <!-- MAIN CONTENT -->
     <main class="content" :class="{ shifted: sidebarOpen }" @click="autoCloseSidebar">
 
+      <!-- DASHBOARD -->
       <section class="dashboard-section">
-        <h2> System Overview</h2>
+        <h2>System Overview</h2>
 
         <div class="charts-container">
           <div class="chart-card">
@@ -45,13 +48,26 @@
         </div>
       </section>
 
+      <!-- PENDING APPLICATIONS -->
       <div class="panel" v-if="activeSection === 'pending'">
         <h2>Pending Applications</h2>
+
         <table>
-          <tr><th>Name</th><th>Email</th><th>Actions</th></tr>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Reason</th>
+            <th>Actions</th>
+          </tr>
+
           <tr v-for="p in pending" :key="p.id">
             <td>{{ p.name }}</td>
             <td>{{ p.email }}</td>
+            <td>
+              <button class="view-reason-btn" @click="openReasonModal(p)">
+                View Reason
+              </button>
+            </td>
             <td>
               <button @click="approveSeller(p.id)">Approve</button>
               <button class="delete" @click="confirmDelete(p.id)">Delete</button>
@@ -60,28 +76,48 @@
         </table>
       </div>
 
+      <!-- APPROVED SELLERS -->
       <div class="panel" v-if="activeSection === 'sellers'">
         <h2>Approved Sellers</h2>
+
         <table>
-          <tr><th>Name</th><th>Email</th><th>Actions</th></tr>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Actions</th>
+          </tr>
+
           <tr v-for="s in sellers" :key="s.id">
-            <!-- 🔵 NEW — clicking seller name opens revenue modal -->
-            <td class="seller-link" @click="openSellerRevenue(s)">{{ s.name }}</td>
+            <td class="seller-link" @click="openSellerRevenue(s)">
+              {{ s.name }}
+            </td>
             <td>{{ s.email }}</td>
-            <td><button class="delete" @click="confirmDelete(s.id)">Delete</button></td>
+            <td>
+              <button class="delete" @click="confirmDelete(s.id)">Delete</button>
+            </td>
           </tr>
         </table>
       </div>
 
+      <!-- ALL USERS -->
       <div class="panel" v-if="activeSection === 'users'">
         <h2>All Users</h2>
+
         <table>
-          <tr><th>Name</th><th>Email</th><th>Role</th><th>Actions</th></tr>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Actions</th>
+          </tr>
+
           <tr v-for="u in users" :key="u.id">
             <td>{{ u.name }}</td>
             <td>{{ u.email }}</td>
             <td>{{ u.role }}</td>
-            <td><button class="delete" @click="confirmDelete(u.id)">Delete</button></td>
+            <td>
+              <button class="delete" @click="confirmDelete(u.id)">Delete</button>
+            </td>
           </tr>
         </table>
       </div>
@@ -101,20 +137,48 @@
       </div>
     </div>
 
-    <!-- 🔵 NEW SELLER REVENUE MODAL -->
-    <div class="overlay" v-if="showRevenueModal">
+    <!-- ✅ MODERN SELLER REVENUE MODAL -->
+    <div class="revenue-overlay" v-if="showRevenueModal">
+      <div class="revenue-modal">
+
+        <div class="revenue-header">
+          <h3>Seller Revenue</h3>
+          <button class="revenue-close" @click="showRevenueModal = false">✕</button>
+        </div>
+
+        <div class="total-revenue-card">
+          <p>Total Revenue</p>
+          <h2>₱ {{ sellerRevenue.toLocaleString() }}</h2>
+        </div>
+
+        <div class="revenue-list">
+          <div class="revenue-item">
+            <div class="revenue-seller">
+              <span>{{ selectedSeller?.name }}</span>
+              <span>{{ selectedSeller?.email }}</span>
+            </div>
+            <div class="revenue-amount">
+              ₱ {{ sellerRevenue.toLocaleString() }}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- VIEW REASON MODAL -->
+    <div class="overlay" v-if="showReasonModal" @click.self="closeReasonModal">
       <div class="modal">
-        <h3>Seller Revenue</h3>
+        <h3>Application Reason</h3>
 
-        <p><strong>Name:</strong> {{ selectedSeller?.name }}</p>
-        <p><strong>Email:</strong> {{ selectedSeller?.email }}</p>
+        <p><strong>Applicant Name:</strong></p>
+        <p>{{ selectedApplication?.name }}</p>
 
-        <h2 style="margin-top: 12px; color: green;">
-          ₱ {{ sellerRevenue.toLocaleString() }}
-        </h2>
+        <p style="margin-top: 12px;"><strong>Reason:</strong></p>
+        <p>{{ selectedApplication?.reason }}</p>
 
         <div class="modal-buttons">
-          <button class="cancel" @click="showRevenueModal = false">Close</button>
+          <button class="cancel" @click="closeReasonModal">Close</button>
         </div>
       </div>
     </div>
@@ -122,8 +186,10 @@
   </div>
 </template>
 
+
+
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
 import { db } from "@/firebase";
 import {
@@ -133,8 +199,6 @@ import {
   doc,
   updateDoc,
   getDoc,
-  query,
-  where
 } from "firebase/firestore";
 import { getAuth, signOut } from "firebase/auth";
 import Chart from "chart.js/auto";
@@ -164,15 +228,37 @@ async function logout() {
   router.push("/login");
 }
 
-/* LOAD DATA */
+/* LOAD USERS */
 async function loadData() {
   const usersSnap = await getDocs(collection(db, "users"));
-  users.value = usersSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
 
-  pending.value = users.value.filter((u) => u.role === "applicant");
+  users.value = usersSnap.docs.map((d) => ({
+    id: d.id,
+    ...d.data(),
+    name:
+      d.data().name ||
+      `${d.data().firstName || ""} ${d.data().lastName || ""}`.trim(),
+  }));
+
   sellers.value = users.value.filter((u) => u.role === "seller");
 
   loadCharts();
+}
+
+/* =============================== */
+/* LOAD SELLER APPLICATIONS        */
+/* =============================== */
+async function loadSellerApplications() {
+  const snap = await getDocs(collection(db, "seller_applications"));
+
+  const applications = snap.docs.map((d) => ({
+    id: d.id,
+    ...d.data(),
+  }));
+
+  pending.value = applications.filter(
+    (app) => app.status === "pending"
+  );
 }
 
 /* DELETE CONFIRMATION */
@@ -198,7 +284,7 @@ async function approveSeller(id) {
 }
 
 /* ------------------------------- */
-/* 🔵 REVENUE MODAL (Correct logic) */
+/* SELLER REVENUE MODAL            */
 /* ------------------------------- */
 const showRevenueModal = ref(false);
 const selectedSeller = ref(null);
@@ -207,18 +293,55 @@ const sellerRevenue = ref(0);
 async function openSellerRevenue(seller) {
   selectedSeller.value = seller;
 
-  // 🔥 Get revenue from USERS collection (this is where cart.vue writes it)
   const sellerRef = doc(db, "users", seller.id);
   const snap = await getDoc(sellerRef);
 
-  if (snap.exists()) {
-    sellerRevenue.value = snap.data().revenue || 0;
-  } else {
-    sellerRevenue.value = 0;
-  }
+  sellerRevenue.value = snap.exists()
+    ? snap.data().revenue || 0
+    : 0;
 
   showRevenueModal.value = true;
 }
+
+/* ------------------------------- */
+/* VIEW REASON MODAL               */
+/* ------------------------------- */
+const showReasonModal = ref(false);
+const selectedApplication = ref(null);
+
+function openReasonModal(application) {
+  selectedApplication.value = application;
+  showReasonModal.value = true;
+}
+
+function closeReasonModal() {
+  showReasonModal.value = false;
+  selectedApplication.value = null;
+}
+
+/* =============================== */
+/* 🔥 NORMALIZE PENDING DATA (ADD) */
+/* =============================== */
+watch(
+  pending,
+  () => {
+    pending.value = pending.value.map((p) => ({
+      ...p,
+      name:
+        p.name ||
+        `${p.firstName || ""} ${p.lastName || ""}`.trim(),
+
+      reason:
+        p.reason ||
+        p.applicationReason ||
+        "No reason provided",
+
+      email: p.email || "",
+      uid: p.uid || p.id,
+    }));
+  },
+  { deep: true }
+);
 
 /* CHARTS */
 let usersChart = null;
@@ -264,8 +387,17 @@ function loadCharts() {
   });
 }
 
-onMounted(loadData);
+/* MOUNT */
+onMounted(() => {
+  loadData();               // users & sellers
+  loadSellerApplications(); // pending applications
+});
 </script>
+
+
+
+
+
 
 
 <style src="./Styles/admin.css"></style>
