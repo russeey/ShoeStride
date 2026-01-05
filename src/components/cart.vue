@@ -443,6 +443,4 @@ const finishReceipt = () => {
 };
 </script>
 
-
-
 <style src="./Styles/cart.css"></style>

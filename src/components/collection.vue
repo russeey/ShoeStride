@@ -58,6 +58,15 @@
       <h1>Available Products</h1>
     </div>
 
+    <!-- 🔍 SEARCH BAR (ADDED ONLY) -->
+    <div class="product-search">
+      <input
+        type="text"
+        v-model="searchQuery"
+        placeholder="Search products..."
+      />
+    </div>
+
     <!-- FILTER BUTTONS -->
     <div class="filter-buttons">
       <button
@@ -275,14 +284,10 @@
 
         <!-- ACTION BUTTONS -->
         <div class="product-modal-actions">
-            <button class="cart-btn" @click="addToCart">Add to Cart</button>
-
-
-
-            <button class="favorite-btn" @click="addToFavorites">
-              Favorite
-            </button>
-
+          <button class="cart-btn" @click="addToCart">Add to Cart</button>
+          <button class="favorite-btn" @click="addToFavorites">
+            Favorite
+          </button>
         </div>
       </div>
     </div>
@@ -329,40 +334,11 @@ import {
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
-import canvasImg from "@/assets/canvas.png";
-import rcasualImg from "@/assets/rcasual.png";
-import menImg from "@/assets/men.png";
-
 import { useFavorites } from "./Scripts/favorites.js";
 import { useCart } from "./Scripts/cart.js";
 import { useLogout } from "./Scripts/homescript.js";
 
 const router = useRouter();
-
-/* ---------------- DEFAULT MODELS ---------------- */
-const defaultModels = [
-  {
-    name: "Running canvas shoes",
-    price: 2999,
-    image: canvasImg,
-    productType: "shoes",
-    sellerName: "ShoeStride"
-  },
-  {
-    name: "Running casual shoes",
-    price: 2999,
-    image: rcasualImg,
-    productType: "shoes",
-    sellerName: "ShoeStride"
-  },
-  {
-    name: "Casual Nike shoes",
-    price: 2999,
-    image: menImg,
-    productType: "shoes",
-    sellerName: "ShoeStride"
-  }
-];
 
 /* ---------------- LOAD PRODUCTS ---------------- */
 const products = ref([]);
@@ -391,10 +367,15 @@ onAuthStateChanged(auth, async (user) => {
   }
 
   const snap = await getDoc(doc(db, "users", user.uid));
+
   if (snap.exists()) {
     const data = snap.data();
+
     isSeller.value = data.role === "seller";
-    currentUserName.value = data.name || data.username || "Seller";
+
+    // ✅ CORRECT assignment
+    currentUserName.value =
+      `${data.firstName || ""} ${data.lastName || ""}`.trim() || "Seller";
   }
 });
 
@@ -473,12 +454,12 @@ const handleColorImageUpload = async (e, color) => {
 
 /* ---------------- UPLOAD PRODUCT ---------------- */
 const uploadProduct = async () => {
-  if (availableSizes.value.length === 0) {
+  if (!availableSizes.value.length) {
     alert("Please select at least one size.");
     return;
   }
 
-  if (availableColors.value.length === 0) {
+  if (!availableColors.value.length) {
     alert("Please select at least one color.");
     return;
   }
@@ -547,10 +528,8 @@ const openProductModal = (product) => {
   selectedProduct.value = product;
   selectedSize.value = hasSizes.value ? product.sizes[0] : null;
   selectedColor.value = hasColors.value ? product.colors[0] : null;
-
   selectedImage.value =
     product.colorImages?.[selectedColor.value] || product.image;
-
   showModal.value = true;
 };
 
@@ -565,19 +544,7 @@ watch(selectedColor, () => {
   }
 });
 
-/* ---------------- ADD TO CART / FAVORITES (NEW) ---------------- */
-const showOverlay = ref(false);
-const overlayMessage = ref("");
-
-const triggerOverlay = (message) => {
-  overlayMessage.value = message;
-  showOverlay.value = true;
-
-  setTimeout(() => {
-    showOverlay.value = false;
-  }, 1500);
-};
-
+/* ---------------- CART / FAVORITES ---------------- */
 const { addFavorite } = useFavorites();
 const { addCart } = useCart();
 
@@ -588,8 +555,6 @@ const addToFavorites = () => {
     selectedColor: hasColors.value ? selectedColor.value : null,
     image: selectedImage.value
   });
-
-  triggerOverlay("❤️ Added to Favorites!");
 };
 
 const addToCart = () => {
@@ -599,8 +564,6 @@ const addToCart = () => {
     selectedColor: hasColors.value ? selectedColor.value : null,
     image: selectedImage.value
   });
-
-  triggerOverlay("🛒 Added to Cart!");
 };
 
 /* ---------------- DELETE PRODUCT ---------------- */
@@ -630,22 +593,34 @@ const cancelDeleteProduct = () => {
 /* ---------------- FILTER ---------------- */
 const selectedFilter = ref("all");
 
-const mergedProducts = computed(() => [
-  ...defaultModels,
-  ...products.value
-]);
+/* 🔍 SEARCH (ADDED ONLY) */
+const searchQuery = ref("");
 
 const filteredProducts = computed(() => {
-  if (selectedFilter.value === "all") return mergedProducts.value;
-  return mergedProducts.value.filter(
-    p => (p.productType || "shoes") === selectedFilter.value
-  );
+  let list = products.value;
+
+  if (selectedFilter.value !== "all") {
+    list = list.filter(
+      p => (p.productType || "shoes") === selectedFilter.value
+    );
+  }
+
+  if (searchQuery.value.trim()) {
+    const q = searchQuery.value.toLowerCase();
+    list = list.filter(p =>
+      p.name?.toLowerCase().includes(q) ||
+      p.sellerName?.toLowerCase().includes(q)
+    );
+  }
+
+  return list;
 });
 
 /* ---------------- LOGOUT / DROPDOWN ---------------- */
 const { logout, showDropdown, toggleDropdown } = useLogout();
 const handleLogout = () => logout();
 </script>
+
 
   
 
